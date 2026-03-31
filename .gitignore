@@ -1,0 +1,20 @@
+# MIMIC-III — NUNCA subir a GitHub (obligación legal del DUA)
+data/raw/*
+data/interim/*
+data/processed/*
+
+# Mantener la estructura de carpetas vacías
+!data/raw/.gitkeep
+!data/interim/.gitkeep
+!data/processed/.gitkeep
+
+# Entorno Python
+venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Credenciales
+*.env
+secrets.py
+
