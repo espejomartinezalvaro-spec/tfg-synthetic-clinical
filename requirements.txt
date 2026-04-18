@@ -1,6 +1,8 @@
 matplotlib
 pandas
 seaborn
+sdv
+opacus
 fastjsonschema==2.21.2
 numpy==2.4.4
 packaging==26.0
