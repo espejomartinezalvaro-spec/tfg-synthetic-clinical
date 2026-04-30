@@ -1,0 +1,18 @@
+\begin{table}
+\caption{Métricas de fidelidad estadística por modelo generativo.}
+\label{tab:fidelidad_summary}
+\begin{tabular}{lrrrrrrr}
+\toprule
+ & JSD mediana & KS mediana & KS \% rechazado & MMD² & W1 & Δρ & AUC discriminador \\
+Modelo &  &  &  &  &  &  &  \\
+\midrule
+CTGAN & 0.008000 & 0.116500 & 98.360700 & 0.018900 & 20.624200 & 0.059000 & 1.000000 \\
+TVAE & 0.008500 & 0.081900 & 98.360700 & 0.005300 & 19.866300 & 0.035100 & 1.000000 \\
+TabDDPM & 0.644200 & 0.530100 & 99.180300 & 0.554100 & 1359.277100 & 0.055500 & 1.000000 \\
+DP-CTGAN ε=∞ & 0.025100 & 0.159300 & 100.000000 & 0.025600 & 43.727500 & 0.066400 & 1.000000 \\
+DP-CTGAN ε=10 & 0.040000 & 0.158500 & 99.173600 & 0.012100 & 32.225400 & 0.144100 & 1.000000 \\
+DP-CTGAN ε=5 & 0.056500 & 0.219400 & 100.000000 & 0.027500 & 28.821500 & 0.172900 & 1.000000 \\
+DP-CTGAN ε=1 & 0.115700 & 0.299200 & 100.000000 & 0.119100 & 104.562000 & 0.420500 & 1.000000 \\
+\bottomrule
+\end{tabular}
+\end{table}
