@@ -14,43 +14,74 @@ utilidad analítica y cuantificación del tradeoff privacidad–fidelidad median
 
 ---
 
-## Estado actual del trabajo (actualizar al abrir conversación)
+## Estructura de la memoria (6 capítulos — estructura vigente)
 
-### Redacción (LaTeX — `Redaccion/`)
-| Cap | Título                              | Estado                                           |
-|-----|-------------------------------------|--------------------------------------------------|
-| 1   | Introducción                        | Esqueleto creado (pendiente redactar al final)   |
-| 2   | Estado del Arte                     | Completado                                       |
-| 3   | Dataset y Preprocesamiento          | Completado                                       |
-| 4   | Modelos Generativos                 | Pendiente — siguiente a redactar                 |
-| 5   | Evaluación de Fidelidad             | Pendiente                                        |
-| 6   | Utilidad Analítica                  | Pendiente                                        |
-| 7   | Análisis de Privacidad              | Pendiente                                        |
-| 8   | Discusión y Conclusiones            | Esqueleto reestructurado (§8.1 Discusión / §8.2 Conclusiones) |
+```
+main.tex
+├── Cap 1 — Introducción                    (esqueleto, redactar al final)
+├── Cap 2 — Estado del Arte                 (COMPLETO)
+├── Cap 3 — Objetivos y Metodología         (COMPLETO)
+├── Cap 4 — Desarrollo
+│   ├── §4.1 Dataset y Preprocesamiento     (COMPLETO)
+│   └── §4.2 Modelos Generativos            (COMPLETO — CTGAN, TVAE, TabDDPM, DP-CTGAN)
+├── Cap 5 — Experimentación y Resultados
+│   ├── §5.1 Fidelidad Estadística
+│   │   ├── §5.1.1–5.1.4 Metodología        (COMPLETO)
+│   │   └── §5.1.5 Discusión comparativa    (PENDIENTE — datos disponibles en nb08)
+│   ├── §5.2 Utilidad Analítica             (esqueleto — pendiente nb09)
+│   └── §5.3 Análisis de Privacidad         (esqueleto — pendiente nb10)
+└── Cap 6 — Discusión y Conclusiones        (esqueleto, redactar al final)
+```
 
-### Notebooks ejecutados (`notebooks/`)
-| Notebook                       | Estado     | Output clave                                       |
-|--------------------------------|------------|----------------------------------------------------|
-| 01_eda_exploracion_inicial     | Ejecutado  | EDA inicial, distribuciones, missingness           |
-| 02_preprocessing               | Ejecutado  | Snapshot (22 520 × 127), tensor (22 235 × 48 × 10) |
-| 03_data_validation             | Ejecutado  | Validación de datasets procesados                  |
-| 04_train_ctgan_tvae            | Creado     | Pendiente ejecución (servidor)                     |
-| 05_train_tabddpm               | Creado     | Pendiente ejecución (servidor)                     |
-| 06_train_timegan               | Creado     | Pendiente ejecución (servidor) — ver decisión pendiente |
-| 07_train_dp_model              | Creado     | Pendiente ejecución (servidor)                     |
+Ficheros LaTeX en `Redaccion/`: `1_introduccion.tex`, `2_estado_arte.tex`,
+`3_objetivos_metodologia.tex`, `4_desarrollo.tex`, `5_experimentacion_resultados.tex`,
+`6_conclusiones.tex`.
 
 ---
 
-## Decisión pendiente: alcance de modelos
+## Estado de los notebooks
 
-**Modelos confirmados:** CTGAN · TVAE · TabDDPM · DP-CTGAN (Opacus, epsilon sweep {1,5,10,∞})
+| Notebook                    | Estado     | Output clave                                              |
+|-----------------------------|------------|-----------------------------------------------------------|
+| 01_eda_exploracion_inicial  | Ejecutado  | EDA inicial, distribuciones, missingness                  |
+| 02_preprocessing            | Ejecutado  | Snapshot (22 520 × 127), tensor (22 235 × 48 × 10)        |
+| 03_data_validation          | Ejecutado  | Validación de datasets procesados                         |
+| 04_train_ctgan_tvae         | Ejecutado  | ctgan_samples.parquet, tvae_samples.parquet               |
+| 05_train_tabddpm            | Ejecutado  | tabddpm_samples.parquet (QuantileTransformer, 1000 épocas)|
+| 06_train_timegan            | Descartado | TimeGAN excluido del scope (ver nota abajo)               |
+| 07_train_dp_model           | Ejecutado  | dp_ctgan_ε{1,5,10,inf}_samples.parquet                    |
+| 08_evaluation_fidelity      | Ejecutado  | reports/fidelidad_summary.csv + figuras                   |
+| 09_evaluation_utility       | Pendiente  | TRTR/TSTR mortalidad + sepsis — necesario para §5.2       |
+| 10_evaluation_privacy       | Pendiente  | MIA, DCR, NNDR — necesario para §5.3                      |
 
-**TimeGAN — pendiente de decisión:**
-- Es el único modelo temporal; su eliminación suprime toda la rama de series temporales
-- Riesgo real: convergencia inestable, entrenamiento en 3 fases, requiere GPU en servidor
-- Opción A: eliminar — scope más limpio, menor riesgo, pero el tensor 22 235×48×10 queda sin uso
-- Opción B: mantener como módulo secundario — análisis más ligero, sin DP, sin comprometer el núcleo
-- Si se elimina, hay ajustes necesarios en §3.5 y en §2 (véase sección "Impacto de eliminar TimeGAN")
+---
+
+## Resultados de fidelidad (nb08 — definitivos)
+
+| Modelo        | JSD med | KS med | MMD²   | W1       | Δρ    |
+|---------------|---------|--------|--------|----------|-------|
+| TVAE          | 0.0085  | 0.082  | 0.0053 | 19.9     | 0.035 |
+| CTGAN         | 0.0080  | 0.117  | 0.0189 | 20.6     | 0.059 |
+| DP-CTGAN ε=∞  | 0.0251  | 0.159  | 0.0256 | 43.7     | 0.066 |
+| DP-CTGAN ε=10 | 0.0400  | 0.159  | 0.0121 | 32.2     | 0.144 |
+| DP-CTGAN ε=5  | 0.0565  | 0.219  | 0.0275 | 28.8     | 0.173 |
+| TabDDPM       | 0.6442  | 0.530  | 0.5541 | 1359.3   | 0.056 |
+| DP-CTGAN ε=1  | 0.1157  | 0.299  | 0.1191 | 104.6    | 0.421 |
+
+AUC discriminador = 1.0 para todos los modelos (XGBoost demasiado potente — resultado esperado).
+TabDDPM: JSD/W1/MMD² altos pero Δρ bueno — preserva correlaciones pero no distribuciones marginales.
+DP-CTGAN: degradación monotónica en JSD y Δρ al reducir ε — resultado científico central del TFG.
+
+---
+
+## Decisiones de alcance ya tomadas
+
+- **TimeGAN: excluido del scope.** La representación temporal (tensor 22 235×48×10) queda fuera del
+  alcance experimental. Mencionado en §4.2 como trabajo futuro. No hay que retomar esta decisión.
+- **Modelos evaluados:** CTGAN · TVAE · TabDDPM · DP-CTGAN (ε ∈ {1, 5, 10, ∞})
+- **TabDDPM normalización:** QuantileTransformer(output='normal', n_quantiles=1000) — no StandardScaler.
+  Hiperparámetros reales: cosine schedule, hidden_dims=(512,512,512,512), 1000 épocas, lr=3e-4.
+  ⚠️ La tabla §4.2 (tab:hp_tabddpm) tiene inconsistencias con la implementación real — pendiente corregir.
 
 ---
 
@@ -81,8 +112,8 @@ TFG/
 ## Stack tecnológico
 
 - **Python 3.12** en Windows nativo (sin WSL)
-- **Fase 1 (instalado):** pandas, numpy, matplotlib, seaborn, scikit-learn, tqdm, pyarrow, ipykernel
-- **Fase 2+ (servidor):** PyTorch + Opacus, SDV/SDMetrics, XGBoost, UMAP-learn, MLflow, DVC
+- **Fase 1:** pandas, numpy, matplotlib, seaborn, scikit-learn, tqdm, pyarrow, ipykernel
+- **Fase 2+:** PyTorch + Opacus, SDV/SDMetrics, XGBoost, UMAP-learn
 - **LaTeX:** XeLaTeX, plantilla FIUM, bibstyle `unsrtnat`, paquete natbib
 
 ---
@@ -91,11 +122,10 @@ TFG/
 
 - Cohorte final: **22 520 estancias UCI** (filtro: primera estancia, LOS ≥ 48h, edad ≥ 18)
 - Mortalidad: **13,8 %** · Edad media: **65,1 años** · Periodo: 2001–2012
-- Variables vitales (11): heart_rate, sbp, dbp, mbp, spo2, temp_c, resp_rate, gcs_eye/verbal/motor
+- Variables vitales (10): heart_rate, sbp, dbp, mbp, spo2, temp_c, resp_rate, gcs_eye/verbal/motor
 - Biomarcadores lab (18): creatinina, lactato, glucosa, hemoglobina, plaquetas, bilirrubina, sodio,
   potasio, bicarbonato, wbc, ph_arterial, pao2, paco2, exceso_base, troponina, inr, bun, albúmina
 - Representación tabular: snapshot 48h → parquet **(22 520 × 127)**
-- Representación temporal: tensor numpy **(22 235 × 48 × 10)** — pendiente de decisión sobre uso
 
 ---
 
@@ -119,33 +149,11 @@ TFG/
 
 ---
 
-## Impacto de eliminar TimeGAN (referencia rápida)
-
-Si se decide eliminar TimeGAN, estos son los ajustes necesarios:
-
-**`3_dataset_preprocesamiento.tex`**
-- §3.5 §3.5.2 "Series temporales horarias": eliminar o convertir en trabajo futuro
-- §3.5.3 "Coherencia entre representaciones": eliminar (no tiene sentido sin dos representaciones)
-- §3.5.1 "Snapshot tabular": queda como sección única, renombrar §3.5 a "Representación tabular"
-- §3.5.2 (zero-inflation GCS): el párrafo sobre intubados y bimodalidad pierde su justificación
-  ("el modelo TimeGAN debe…") — reencuadrar o eliminar
-- §3.6.1: la frase sobre "modelos generativos condicionales" sigue siendo válida
-- Tabla de cohorte: el dato "22 235 estancias en tensor" desaparece
-
-**`2_estado_arte.tex`**
-- §2.2: el apartado de TimeGAN (TimeGAN, Yoon et al. 2019) se puede mantener como contexto
-  histórico o mover a trabajo futuro — no es obligatorio eliminarlo del estado del arte
-
-**`main.tex` / comentarios**
-- Actualizar comentario del cap. 4: quitar "TimeGAN" de la lista
-
----
-
 ## Punto de partida para nueva conversación
 
-Al iniciar una sesión nueva, recordar:
-1. ¿En qué sección de redacción nos quedamos? → ver tabla "Estado actual"
-2. ¿Hay notebooks recién ejecutados con nuevos outputs? → actualizar tabla de notebooks
-3. Resolver la **decisión pendiente sobre TimeGAN** antes de redactar el capítulo 4
-4. El siguiente capítulo a redactar es el **Capítulo 4 — Modelos Generativos**
-   (CTGAN · TVAE · TabDDPM · DP-CTGAN confirmados; TimeGAN pendiente de decisión)
+1. La memoria tiene **6 capítulos** (no 8). Ver tabla de estructura arriba.
+2. Cap 2, 3 y 4 están **completamente redactados**.
+3. Lo siguiente a redactar es **§5.1.5** (discusión comparativa de fidelidad) — datos en nb08.
+4. Antes de §5.2 y §5.3 hay que crear y ejecutar nb09 y nb10 en el servidor.
+5. La tabla `tab:hp_tabddpm` en §4.2 tiene inconsistencias con la implementación — pendiente corregir.
+6. TimeGAN: **decisión ya tomada** — excluido, mencionado como trabajo futuro en §4.2.
