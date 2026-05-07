@@ -1,0 +1,15 @@
+\begin{table}
+\caption{Utilidad analítica: AUROC, AUPRC y F1 para predicción de mortalidad y detección de sepsis (TRTR vs. TSTR, promedio de 4 clasificadores downstream).}
+\label{tab:utilidad_summary}
+\begin{tabular}{lrrrrr}
+\toprule
+ & AUROC & AUPRC & F1 & ΔAUROC & AUROC\_sepsis \\
+Condición &  &  &  &  &  \\
+\midrule
+TRTR (baseline) & 0.872800 & 0.559300 & 0.458700 & 0.000000 & 0.496400 \\
+CTGAN & 0.777500 & 0.360800 & 0.343900 & -0.095300 & 0.487700 \\
+TVAE & 0.835200 & 0.455700 & 0.353000 & -0.037600 & 0.498800 \\
+TabDDPM & 0.779700 & 0.390500 & 0.004800 & -0.093200 & 0.500100 \\
+\bottomrule
+\end{tabular}
+\end{table}
