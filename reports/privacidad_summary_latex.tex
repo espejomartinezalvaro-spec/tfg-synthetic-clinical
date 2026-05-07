@@ -1,0 +1,19 @@
+\begin{table}
+\caption{Métricas de privacidad por modelo generativo. DCR y NNDR calculados contra el dataset real completo. MIA advantage: fracción de muestras sintéticas más cercanas al training que al holdout, menos 0,5 (0 = sin ventaja inferencial).}
+\label{tab:privacidad_summary}
+\begin{tabular}{lrrrrrr}
+\toprule
+ & DCR mediana & DCR p5 & NNDR mediana & \% NNDR<0.5 & MIA advantage & AUROC TSTR \\
+Modelo &  &  &  &  &  &  \\
+\midrule
+Holdout real (ref.) & 7.353300 & 4.920000 & 0.973700 & 0.133300 & 0.390300 & --- \\
+CTGAN & 9.467000 & 6.792900 & 0.986900 & 0.000000 & 0.271000 & 0.777500 \\
+TVAE & 6.781700 & 4.810600 & 0.977500 & 0.000000 & 0.297000 & 0.835200 \\
+TabDDPM & 126.376100 & 87.810900 & 0.982200 & 0.000000 & 0.199300 & 0.779700 \\
+DP-CTGAN ε=∞ & 8.589200 & 5.381800 & 0.974600 & 0.000000 & 0.300000 & 0.744200 \\
+DP-CTGAN ε=10 & 8.030300 & 5.640300 & 0.984500 & 0.000000 & 0.284000 & 0.691900 \\
+DP-CTGAN ε=5 & 8.402000 & 6.018200 & 0.987300 & 0.000000 & 0.274000 & 0.712800 \\
+DP-CTGAN ε=1 & 10.349300 & 4.612200 & 0.993100 & 0.000000 & 0.221300 & 0.662800 \\
+\bottomrule
+\end{tabular}
+\end{table}
