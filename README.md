@@ -21,7 +21,7 @@ Este proyecto propone y evalúa un marco experimental de generación de datos cl
 ```
 TFG/
 ├── data/
-│   ├── raw/          ← tablas MIMIC-III originales (.csv.gz)  ⚠️ NO versionado (DUA)
+│   ├── raw/          ← tablas MIMIC-III originales (.csv.gz)   NO versionado (DUA)
 │   ├── interim/      ← pasos intermedios del preprocesamiento
 │   └── processed/    ← datasets finales (tabular_48h.parquet, tensor secuencial)
 ├── notebooks/        ← pipeline completo en Jupyter (ver tabla más abajo)
@@ -60,7 +60,7 @@ Los datos de MIMIC-III son de **acceso controlado** y no están incluidos en est
 
 Las tablas utilizadas son: `ADMISSIONS`, `ICUSTAYS`, `PATIENTS`, `CHARTEVENTS`, `LABEVENTS`, `D_ITEMS`, `D_LABITEMS`.
 
-> ⚠️ **Nunca subir `data/raw/` a ningún repositorio público.** Es una obligación del DUA.
+>  **Nunca subir `data/raw/` a ningún repositorio público.** Es una obligación del DUA.
 
 ---
 
@@ -102,7 +102,7 @@ Frontera Pareto DP-CTGAN: reducir ε de ∞ a 1 cuesta 0,081 AUROC y reduce MIA 
 
 ## Memoria
 
-La memoria está redactada en LaTeX (XeLaTeX) con la plantilla oficial FIUM/UMU y compilada en Overleaf. Los fuentes están en `Redaccion/`. Las figuras se generan con los notebooks y se exportan a `reports/` para su inclusión manual en Overleaf.
+La memoria está redactada en LaTeX con la plantilla oficial FIUM/UMU y compilada en Overleaf. Los fuentes están en `Redaccion/`. Las figuras se generan con los notebooks y se exportan a `reports/` para su inclusión manual en Overleaf.
 
 ---
 
