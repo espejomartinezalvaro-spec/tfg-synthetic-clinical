@@ -7,7 +7,7 @@ Facultad de Informática · Universidad de Murcia · 2025–2026
 
 **Autor:** Álvaro Espejo Martínez  
 **Tutores:** José Manuel Juárez Herrero · Bernardo Cánovas Segura
-**Calificación**: 9,5 / 10 — Sobresaliente
+Calificación: 9,5 / 10 — Sobresaliente
 ---
 
 ## Descripción
